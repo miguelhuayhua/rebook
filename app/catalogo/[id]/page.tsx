@@ -6,7 +6,7 @@ const getProducto = async (id: string) => {
   return await fetch(`https://uayua.com/uayua/api/publicaciones/get?url=${id}&fields=id,titulo,imagenes,subtitulo,coleccion,caracteristicas,estado,variantes:valores,opciones:valores,opciones:id,opciones:nombre,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion,variantes:imagen,categorias:categoria`, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUATOKEN}`,
-      'Origin': 'https://avm-bo.vercel.app'
+      'Origin': 'https://rebook-bo.vercel.app'
     }
   }).then(res => res.json())
 }
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     const imagenPrincipal = producto.imagenes.length > 0 ? producto.imagenes?.[0].url : '/placeholder.svg'
     const precio = producto.variantes?.[0]?.precio || null
     return {
-      title: `${titulo} | AVM`,
+      title: `${titulo} | REBOOK`,
       description: descripcion,
       keywords: [
         titulo,
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         title: titulo,
         description: descripcion,
         type: 'article',
-        url: `https://avm-bo.vercel.app/catalogo/${id}`,
+        url: `https://REBOOK-bo.vercel.app/catalogo/${id}`,
         images:
         {
           url: imagenPrincipal,
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
           href: imagenPrincipal
         }
         ,
-        siteName: 'AVM',
+        siteName: 'REBOOK',
         locale: 'es_ES',
       },
 
@@ -56,8 +56,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         title: titulo,
         description: descripcion,
         images: imagenPrincipal ? [imagenPrincipal] : [],
-        creator: '@AVM',
-        site: '@AVM',
+        creator: '@REBOOK',
+        site: '@REBOOK',
       },
 
       // Metadatos para productos/ecommerce
@@ -65,13 +65,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         'product:price:amount': precio?.toString() || '',
         'product:price:currency': 'USD', // Ajusta según tu moneda
         'product:availability': producto.estado ? 'in stock' : 'out of stock',
-        'product:brand': 'AVM', // Ajusta según corresponda
+        'product:brand': 'REBOOK', // Ajusta según corresponda
         'product:category': producto.categorias.at(0)?.categoria?.nombre || '',
       },
 
       // Canonical URL
       alternates: {
-        canonical: `https://avm-bo.vercel.app/producto/${id}`,
+        canonical: `https://REBOOK-bo.vercel.app/producto/${id}`,
       },
 
       // Robots
@@ -101,6 +101,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { id } = await params
 
   const producto = await getProducto(id);
+  console.log(producto)
   if (producto)
     return <Client producto={producto as any} />
   else return notFound();

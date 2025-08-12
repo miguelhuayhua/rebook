@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "./components/footer";
 import { Providers } from "@/providers";
 import { Navbar } from "./components/navbar";
+import Footer from "./components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vidriería AVM",
+  title: "Vidriería REBOOK",
   description: "Especialistas en vidriería y carpintería de aluminio. Fabricamos e instalamos ventanas, puertas, canceles y soluciones a medida en vidrio y aluminio para hogares y negocios.",
 };
 

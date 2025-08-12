@@ -17,7 +17,7 @@ export function Hero() {
           Descubre tu próxima gran lectura
         </h1>
         <p className="text-lg md:text-xl text-gray-300">
-          Explora nuestra vasta colección de libros, desde clásicos atemporales hasta los últimos bestsellers.
+          Explora nuestra colección de libros, desde clásicos atemporales hasta los últimos bestsellers.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">

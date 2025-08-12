@@ -11,6 +11,7 @@ export function ContactSection() {
     <motion.section
       className="py-12 md:py-20"
       initial="hidden"
+      id='contacto'
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       variants={{
@@ -38,20 +39,31 @@ export function ContactSection() {
             visible: { opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.6, ease: "backIn" } },
           }}
         >
-          <form className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Nombre</Label>
-              <Input id="name" placeholder="Tu nombre" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="tu@ejemplo.com" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="message">Mensaje</Label>
-              <Textarea id="message" placeholder="Escribe tu mensaje aquí..." rows={5} />
-            </div>
-            <Button type="submit" className="w-full">
+          <form className="space-y-3" onSubmit={(e) => {
+            e.preventDefault()
+            let formData = new FormData(e.target as HTMLFormElement);
+            let a = document.createElement('a');
+            a.href = `https://api.whatsapp.com/send?phone=59169848691&text=${encodeURIComponent(`Nombre: ${formData.get('nombre')}\nAsunto: ${formData.get('asunto')}\nMensaje: ${formData.get('mensaje')}`)}`;
+            a.target = '_blank';
+            a.click();
+            a.remove();
+          }
+          }>
+            <Input
+              id="nombre"
+              name="nombre"
+              placeholder="Nombre"  />
+            <Input
+              name="asunto"
+              placeholder="Asunto"  />
+            <Textarea
+              name="mensaje"
+              placeholder="Tu Mensaje"
+              rows={3}
+            />
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-primary to-secondary  text-sm font-medium transition-all">
               Enviar Mensaje
             </Button>
           </form>

@@ -17,6 +17,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
+import { Categoria } from "@/types/main"
 
 export function Navbar() {
   const navVariants: Variants = {
@@ -41,9 +42,18 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
   const pathname = usePathname()
-
+  const [categorias, setCategorias] = useState<Categoria[]>([])
   const isHomePage = pathname === "/"
-
+  useEffect(() => {
+    fetch('https://uayua.com/uayua/api/categorias/getall?fields=nombre,id', {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUATOKEN}`
+      }
+    }).then(res => res.json()).then(data => [...data, { id: "", nombre: "todos" }]).then(data => {
+      setCategorias(data);
+    })
+  }, [])
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -56,7 +66,7 @@ export function Navbar() {
       <Sheet>
         <SheetTrigger asChild>
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="sm:hidden bg-transparent"
           >
@@ -94,33 +104,23 @@ export function Navbar() {
                 <div className="grid gap-1 pl-4 pr-2 py-2 bg-muted rounded-md">
                   {" "}
                   {/* Ajuste de espaciado y fondo */}
-                  <Link
-                    href="#"
-                    className="group grid h-auto w-full justify-start gap-1 py-2 px-2 rounded-md hover:bg-background"
-                  >
-                    <div className="text-sm font-medium leading-none group-hover:underline">Ficción</div>
-                    <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Novelas, cuentos y más.
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="group grid h-auto w-full justify-start gap-1 py-2 px-2 rounded-md hover:bg-background"
-                  >
-                    <div className="text-sm font-medium leading-none group-hover:underline">No Ficción</div>
-                    <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Biografías, historia, ciencia.
-                    </div>
-                  </Link>
-                  <Link
-                    href="#"
-                    className="group grid h-auto w-full justify-start gap-1 py-2 px-2 rounded-md hover:bg-background"
-                  >
-                    <div className="text-sm font-medium leading-none group-hover:underline">Infantil</div>
-                    <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Libros para los más pequeños.
-                    </div>
-                  </Link>
+
+                  {
+                    categorias.map((categoria) => (
+                      <Link
+                        key={categoria.id}
+                        href={`/catalogo?categoria=${categoria.nombre}`}
+                        className="group grid h-auto w-full justify-start gap-1 py-2 px-2 rounded-md hover:bg-background"
+                      >
+                        <div className="text-sm font-medium leading-none group-hover:underline">
+                          {categoria.nombre.charAt(0).toUpperCase() + categoria.nombre.slice(1)}
+                        </div>
+                        <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          Explora nuestra colección de {categoria.nombre}.
+                        </div>
+                      </Link>
+                    ))
+                  }
                 </div>
               </CollapsibleContent>
             </Collapsible>
@@ -161,46 +161,28 @@ export function Navbar() {
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="grid w-[400px] p-2">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="#"
-
-                    >
-                      <div className="text-sm font-medium leading-none group-hover:underline">Ficción</div>
-                      <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Novelas, cuentos y más.
-                      </div>
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="#"
-
-                    >
-                      <div className="text-sm font-medium leading-none group-hover:underline">No Ficción</div>
-                      <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Biografías, historia, ciencia.
-                      </div>
-                    </Link>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="#"
-
-                    >
-                      <div className="text-sm font-medium leading-none group-hover:underline">Infantil</div>
-                      <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Libros para los más pequeños.
-                      </div>
-                    </Link>
-                  </NavigationMenuLink>
+                  {
+                    categorias.map((categoria) => (
+                      <NavigationMenuLink key={categoria.id} asChild>
+                        <Link
+                          href={`/catalogo?categoria=${categoria.nombre}`}
+                        >
+                          <div className="text-sm font-medium leading-none group-hover:underline">
+                            {categoria.nombre.charAt(0).toUpperCase() + categoria.nombre.slice(1)}
+                          </div>
+                          
+                        </Link>
+                      </NavigationMenuLink>
+                    ))
+                  }
+                  
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
 
             <NavigationMenuLink asChild>
               <Link
-                href="/contact"
+                href="/#contacto"
 
               >
                 Contacto

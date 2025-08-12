@@ -4,19 +4,32 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
 import { Publicacion } from "@/types/main"
+import { Badge } from "@/components/ui/badge"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store"
+import { some } from "lodash"
+import { toggleFavProduct } from "@/store/reducers/user"
 
 interface ProductoProps {
   publicacion: Publicacion
 }
 
 export function Producto({ publicacion }: ProductoProps) {
+  const { favProducts } = useSelector((state: RootState) => state.user)
+  const isFavorite = some(favProducts, (productId) => productId === publicacion.id)
+  const dispatch = useDispatch();
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    dispatch(toggleFavProduct({ id: publicacion.id }))
+  }
+
   const defaultPrice =
     publicacion.variantes.length > 0 ? `Bs. ${publicacion.variantes[0].precio.toFixed(2)}` : "Precio no disponible"
 
   const author = publicacion.caracteristicas.find((char) => char.nombre === "Autor")?.valor
   const genre = publicacion.caracteristicas.find((char) => char.nombre === "Género")?.valor
-  const category = publicacion.categorias[0]?.categoria?.nombre // Obtener el nombre de la primera categoría
-
+  const categorias = publicacion.categorias; // Obtener el nombre de la primera categoría
   return (
     <Card className="w-full max-w-xs mx-auto overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
       <Link href={`/catalogo/${publicacion.id}`} className="block">
@@ -31,6 +44,15 @@ export function Producto({ publicacion }: ProductoProps) {
         </div>
       </Link>
       <CardHeader >
+        {categorias.length > 0 && (
+          <div className="text-sm flex items-center  font-bold text-primary gap-2 mb-2">
+            {
+              publicacion.categorias.map((value, index) => <Badge key={index} variant="outline" >
+                {value.categoria?.nombre}
+              </Badge>)}
+
+          </div>
+        )}
         <CardTitle className="text-lg font-semibold line-clamp-2">
           <Link href={`/catalogo/${publicacion.id}`} className="hover:underline">
             {publicacion.titulo}
@@ -38,16 +60,12 @@ export function Producto({ publicacion }: ProductoProps) {
         </CardTitle>
         <CardDescription className="text-sm line-clamp-1">{publicacion.subtitulo}</CardDescription>
         {author && (
-          <CardDescription className="text-sm text-muted-foreground line-clamp-1">Por: {author}</CardDescription>
+          <CardDescription className=" text-muted-foreground line-clamp-1">Por: {author}</CardDescription>
         )}
         {genre && (
-          <CardDescription className="text-xs text-muted-foreground line-clamp-1">Género: {genre}</CardDescription>
+          <CardDescription className=" text-muted-foreground line-clamp-1">Género: {genre}</CardDescription>
         )}
-        {category && (
-          <CardDescription className="text-xs text-muted-foreground line-clamp-1">
-            Categoría: {category}
-          </CardDescription>
-        )}
+
       </CardHeader>
       <CardContent >
         <div className="text-xl font-bold text-primary">{defaultPrice}</div>
@@ -56,8 +74,10 @@ export function Producto({ publicacion }: ProductoProps) {
         <Button className="flex-1" asChild>
           <Link href={`/catalogo/${publicacion.id}`}>Ver Detalles</Link>
         </Button>
-        <Button className="text-secondary" variant="outline" size="icon">
-          <Heart className="w-4 h-4" />
+        <Button onClick={handleToggleFavorite}
+          size="icon"
+          className={` z-10  duration-300 p-1 ${isFavorite && ('text-secondary ')}`} variant="outline" >
+          <Heart className={`${isFavorite && ('fill-secondary')}`} />
           <span className="sr-only">Añadir a la lista de deseos</span>
         </Button>
       </CardFooter>

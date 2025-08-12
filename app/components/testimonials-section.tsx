@@ -10,77 +10,69 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useKeenSlider } from "keen-slider/react"
 const testimonios = [
     {
-        nombre: "Lucía Mamani",
-        negocio: "Residencial en Villa Fátima",
-        texto: "Instalaron unas ventanas corredizas de aluminio con vidrio templado en mi sala, ahora entra más luz y se siente mucho más amplio. El trabajo fue rápido y muy prolijo.",
-        producto: "ventanas",
-        avatar: "LM",
+        nombre: "María Fernanda Quispe",
+        negocio: "Lectora apasionada – La Paz",
+        texto: "Compré 'No me puedes lastimar' de David Goggins y realmente me motivó a superar mis límites. El envío fue rápido y el libro llegó en perfecto estado.",
+        producto: "No me puedes lastimar – David Goggins",
+        avatar: "MFQ",
     },
     {
-        nombre: "Kevin Quispe",
-        negocio: "Taller de carpintería – El Alto",
-        texto: "Encargué planchas de melamina para hacer muebles a medida. La calidad es excelente, cortadas al milímetro, y los bordes bien sellados. Muy recomendados.",
-        producto: "melamina",
-        avatar: "KQ",
+        nombre: "Luis Alberto Mamani",
+        negocio: "Corredor amateur – El Alto",
+        texto: "'Nunca terminar' me dio un empujón mental para seguir entrenando. Excelente servicio y muy buena atención.",
+        producto: "Nunca terminar – David Goggins",
+        avatar: "LAM",
     },
     {
-        nombre: "Noemí Condori",
-        negocio: "Salón de Belleza Ñusta – Sopocachi",
-        texto: "Mandé a hacer un espejo grande con marco de vidrio biselado para mi salón. Se ve muy elegante y ha cambiado completamente la estética del local.",
-        producto: "vidrio biselado",
-        avatar: "NC",
+        nombre: "Paola Ríos",
+        negocio: "Docente – Cochabamba",
+        texto: "‘El poder de las palabras’ me ayudó muchísimo en mis clases. Es un libro que inspira y enseña al mismo tiempo.",
+        producto: "El poder de las palabras",
+        avatar: "PR",
     },
     {
-        nombre: "Daniela Salazar",
-        negocio: "Manicuría Dani Nails – Miraflores",
-        texto: "Me fabricaron un mostrador de melamina blanca con acabado brillante, quedó hermoso y súper funcional. Mis clientas siempre lo elogian.",
-        producto: "melamina",
-        avatar: "DS",
+        nombre: "Javier Choque",
+        negocio: "Emprendedor – Santa Cruz",
+        texto: "‘Las 74 leyes del poder’ es oro puro para los negocios. Me llegó rápido y bien empacado.",
+        producto: "Las 74 leyes del poder",
+        avatar: "JC",
     },
     {
-        nombre: "Jorge Gutiérrez",
-        negocio: "Oficina Estudio Creativo – San Miguel",
-        texto: "Pedí una mampara de vidrio esmerilado para separar ambientes en la oficina. El resultado fue impecable, se siente privacidad pero sin perder luz natural.",
-        producto: "vidrio esmerilado",
-        avatar: "JG",
+        nombre: "Andrea Flores",
+        negocio: "Estudiante de Filosofía – Sucre",
+        texto: "‘Cómo ser un estoico’ me cambió la forma de ver los problemas. Muy recomendado para quien busca paz mental.",
+        producto: "Cómo ser un estoico",
+        avatar: "AF",
     },
     {
-        nombre: "Camila Ríos",
-        negocio: "Departamento en Alto Obrajes",
-        texto: "Encargué una puerta corrediza de vidrio templado para mi cocina. Se ve moderna y la instalación fue rápida y limpia.",
-        producto: "puerta de vidrio",
-        avatar: "CR",
+        nombre: "Carlos Villca",
+        negocio: "Psicólogo – Tarija",
+        texto: "El libro de ‘Psicología oscura’ es muy interesante y bien explicado. Ideal para entender mejor el comportamiento humano.",
+        producto: "Psicología oscura",
+        avatar: "CV",
     },
     {
-        nombre: "Rodrigo Vargas",
-        negocio: "AutoTuning RV – La Ceja",
-        texto: "Les compré láminas de vidrio polarizado para autos. Muy buena calidad y el acabado profesional. Se nota la diferencia en el calor y la vista.",
-        producto: "vidrio polarizado",
-        avatar: "RV",
+        nombre: "Roxana Pinto",
+        negocio: "Negocio familiar – La Paz",
+        texto: "‘Padre rico padre pobre’ me dio claridad para manejar mejor mi dinero. Excelente calidad de impresión.",
+        producto: "Padre rico padre pobre",
+        avatar: "RP",
     },
     {
-        nombre: "Tatiana López",
-        negocio: "Casa de Eventos TL – Calacoto",
-        texto: "Mandamos a hacer mesas de vidrio templado para eventos. Son resistentes y dan un toque elegante en las fotos.",
-        producto: "mesas de vidrio",
-        avatar: "TL",
+        nombre: "Fernando López",
+        negocio: "Freelancer – Oruro",
+        texto: "‘Cómo dejar de pensar demasiado’ me ayudó a enfocarme en mis proyectos. Muy buen libro y envío rápido.",
+        producto: "Cómo dejar de pensar demasiado",
+        avatar: "FL",
     },
     {
-        nombre: "Álvaro Pinto",
-        negocio: "Sala Gamer – La Paz Centro",
-        texto: "Instalaron repisas flotantes de melamina en mi sala gamer. Quedaron firmes, bonitas y organizan perfecto mis equipos.",
-        producto: "melamina",
-        avatar: "AP",
-    },
-    {
-        nombre: "Fernanda Morales",
-        negocio: "Departamento FM – Sopocachi",
-        texto: "Pedí un espejo de cuerpo entero con borde de aluminio. Excelente calidad, lo uso para mis videos de TikTok y queda genial en mi cuarto.",
-        producto: "espejos",
-        avatar: "FM",
+        nombre: "Natalia Vargas",
+        negocio: "Diseñadora gráfica – La Paz",
+        texto: "‘Hábitos atómicos’ me dio estrategias simples pero efectivas para mejorar mi productividad.",
+        producto: "Hábitos atómicos",
+        avatar: "NV",
     },
 ];
-
 
 export default function TestimonialSection() {
     const [sliderRef] = useKeenSlider<HTMLDivElement>({
@@ -145,8 +137,8 @@ export default function TestimonialSection() {
                                         "{testimonio.texto}"
                                     </p>
 
-                                    <Badge variant="outline" className="text-xs font-medium">
-                                        Trabajo Realizado: {testimonio.producto}
+                                    <Badge className="text-xs font-medium">
+                                        Libro: {testimonio.producto}
                                     </Badge>
                                 </CardContent>
                             </Card>

@@ -99,7 +99,7 @@ export default function ProductDetailPage({ producto }: Props) {
     const categoriaPrincipal = producto.categorias[0]?.categoria?.nombre || "Sin categoría"
 
     return (
-        <div className="min-h-screen  relative font-inter">
+        <div className="min-h-screen pt-20  relative font-inter">
 
 
             <div className="relative z-20">
@@ -124,7 +124,7 @@ export default function ProductDetailPage({ producto }: Props) {
                     <div className="grid lg:grid-cols-2 gap-12">
                         {/* Images */}
                         <div className="space-y-4">
-                            <div className="relative w-full h-96 rounded-xl overflow-hidden bg-white/90 backdrop-blur-sm shadow-lg">
+                            <div className="relative w-full h-auto rounded-xl overflow-hidden bg-white/90 backdrop-blur-sm shadow-lg">
                                 <Image
                                     src={currentImageUrl || "/placeholder.svg"}
                                     alt={selectedVariant?.titulo || producto.titulo}
@@ -207,7 +207,7 @@ export default function ProductDetailPage({ producto }: Props) {
                                     <Button asChild className="flex-1 text-lg py-6">
                                         <Link
                                             href={`https://wa.me/59169848691?text=${encodeURIComponent(
-                                                `Hola, estoy interesado en el producto "${producto.titulo}" https://avm-bo.vercel.app/catalogo/${producto.url || producto.id}. ¿Podría brindarme más información?`
+                                                `Hola, estoy interesado en el producto "${producto.titulo}" https://REBOOK-bo.vercel.app/catalogo/${producto.url || producto.id}. ¿Podría brindarme más información?`
                                             )}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -252,7 +252,7 @@ export default function ProductDetailPage({ producto }: Props) {
 
                     {/* Product Details Tabs */}
                     <div className="mt-16">
-                        <Tabs defaultValue="descripcion" className="w-full">
+                        <Tabs defaultValue="descripcion" className="w-full max-w-3xl mx-auto">
                             <TabsList className="grid w-full grid-cols-2">
                                 <TabsTrigger value="descripcion">Descripción</TabsTrigger>
                                 <TabsTrigger value="especificaciones">Especificaciones</TabsTrigger>
@@ -271,11 +271,11 @@ export default function ProductDetailPage({ producto }: Props) {
                             <TabsContent value="especificaciones" className="mt-6">
                                 <Card className="bg-white/90 backdrop-blur-sm">
                                     <CardContent className="p-6">
-                                        <div className="grid md:grid-cols-2 gap-4">
+                                        <div className="grid md:grid-cols-2  gap-x-10">
                                             {producto.caracteristicas.map((caracteristica) => (
                                                 <div
                                                     key={caracteristica.id}
-                                                    className="flex justify-between items-center py-3 border-b last:border-b-0"
+                                                    className="flex justify-between items-center py-3 "
                                                 >
                                                     <span className="font-medium">{caracteristica.nombre}:</span>
                                                     <span>{caracteristica.valor}</span>

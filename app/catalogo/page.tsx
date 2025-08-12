@@ -10,9 +10,9 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
-import Producto from "../components/producto"
 import { Categoria, Publicacion } from "@/types/main"
 import { useRouter, useSearchParams } from "next/navigation"
+import { Producto } from "../components/producto"
 
 
 
@@ -21,7 +21,7 @@ export default function CatalogoPage() {
 
     const params = useSearchParams();
     const [busqueda, setBusqueda] = useState("")
-    const [categorias, setCategorias] = useState<Categoria[]>([{ id: "", nombre: "todos" }])
+   
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(params.get('categoria') || 'todos')
     const router = useRouter();
     const [productosFiltrados, setProductosFiltrados] = useState<Publicacion[]>([])
@@ -29,7 +29,7 @@ export default function CatalogoPage() {
     const [filtroCalificacion, setFiltroCalificacion] = useState(0)
     const [mostrarFiltros] = useState(false)
     const [productos, setProductos] = useState<Publicacion[]>([]);
-
+ const [categorias, setCategorias] = useState<Categoria[]>([{ id: "", nombre: "todos" }])
     const [isVisible, setIsVisible] = useState(false);
     useEffect(() => {
         const coleccion = params.get('coleccion');
@@ -42,7 +42,6 @@ export default function CatalogoPage() {
             const cat = params.get('categoria') || 'todos'
             setCategoriaSeleccionada(cat)
             setProductos(data)
-            console.log(data)
             if (cat == 'todos') {
                 setProductosFiltrados(data);
             }
@@ -71,7 +70,7 @@ export default function CatalogoPage() {
             setProductosFiltrados(productos.filter(producto => producto.categorias.some(value => value.categoria?.nombre.toLowerCase() == cat.toLowerCase())))
     }, [params])
     return (
-        <div className="min-h-screen  text-slate-900 relative font-inter">
+        <div className="min-h-screen mt-20  text-slate-900 relative font-inter">
 
 
             <div className="relative z-20">
@@ -105,7 +104,7 @@ export default function CatalogoPage() {
 
                         <h1 className="text-3xl md:text-4xl font-bold mb-3">Catálogo de Productos</h1>
                         <p className="text-base">
-                            Descubre nuestra gama completa de ventanas de aluminio, muebles de melamina y vidrios
+                            Mira nuestros libros y encuentra el que más te guste.
                         </p>
                     </div>
                     {/* Search and Filters Bar */}
@@ -214,24 +213,28 @@ export default function CatalogoPage() {
                         </p>
                     </div>
                     {
-                        productosFiltrados.length > 0 ?
-                            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        isVisible ?
+                            productosFiltrados.length > 0 ?
+                                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-                                {productosFiltrados.map((producto, i) => (
-                                    <Producto key={producto.id} producto={producto} />
-                                ))}
-                            </div>
+                                    {productosFiltrados.map((producto, i) => (
+                                        <Producto key={producto.id} publicacion={producto} />
+                                    ))}
+                                </div>
 
-                            :
-                            <div className="flex flex-col justify-center max-w-xs mx-auto gap-5">
-                                <Search className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                                <p className="text-center text-muted-foreground my-2 text-lg ">
-                                    Sin resultados
-                                </p>
-                                <Button onClick={() => router.back()} variant="outline" >
-                                    <ChevronLeft />
-                                    Regresar
-                                </Button>
+                                :
+                                <div className="flex flex-col justify-center max-w-xs mx-auto gap-5">
+                                    <Search className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                                    <p className="text-center text-muted-foreground my-2 text-lg ">
+                                        Sin resultados
+                                    </p>
+                                    <Button onClick={() => router.back()} variant="outline" >
+                                        <ChevronLeft />
+                                        Regresar
+                                    </Button>
+                                </div> :
+                            <div className="flex justify-center">
+                                <LoaderCircle className="size-8 animate-spin" />
                             </div>
                     }
 

@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge" // Añadido para el diseño
 
 // Asegúrate de que tu tipo Publicacion esté definido en "@/types/main"
 import type { Publicacion } from "@/types/main"
-import Producto from "../components/producto"
+import { Producto } from "../components/producto"
 
 const FavoritosPage = () => {
   const dispatch = useDispatch()
@@ -39,7 +39,7 @@ const FavoritosPage = () => {
         // Simular fetch de productos favoritos
         // En tu caso real, harías una llamada a la API con los IDs
         const response = await fetch(
-          "https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,variantes,coleccion,categorias",
+          "https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,variantes,coleccion,categorias:categoria",
           {
             method: "GET",
             headers: {
@@ -228,7 +228,7 @@ const FavoritosPage = () => {
                     className="relative group"
                   >
                     {/* Aquí se usa tu componente ProductCard */}
-                    <Producto producto={producto} />
+                    <Producto key={producto.id} publicacion={producto} />
                   </motion.div>
                 ))}
               </motion.div>
