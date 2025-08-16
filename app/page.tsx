@@ -21,9 +21,7 @@ export default function HomePage() {
         {/* Products Section */}
 
         <ProductListSection />
-        {/* Features Section */}
-        <FeaturesSection />
-
+     
         {/* Services Section */}
 
         <ServicesSection />

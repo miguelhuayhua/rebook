@@ -10,6 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useDispatch, useSelector } from "react-redux"
+import { some } from "lodash"
+import { RootState } from "@/store"
+import { toggleFavProduct } from "@/store/reducers/user"
 
 // Simplified interfaces to avoid Redux dependencies for demo
 interface Imagen {
@@ -80,11 +84,10 @@ function VariantSelector({
           <button
             key={variante.id}
             onClick={() => setSelectedVariant(variante)}
-            className={`p-4 rounded-xl border-2 text-left transition-all ${
-              selectedVariant?.id === variante.id
-                ? "border-primary bg-primary/5"
-                : "border-gray-200 hover:border-primary/50"
-            }`}
+            className={`p-4 rounded-xl border-2 text-left transition-all ${selectedVariant?.id === variante.id
+              ? "border-primary bg-primary/5"
+              : "border-gray-200 hover:border-primary/50"
+              }`}
           >
             <div className="flex justify-between items-center">
               <span className="font-medium">{variante.titulo}</span>
@@ -100,7 +103,6 @@ function VariantSelector({
 export default function ProductDetailPage({ producto }: Props) {
   const [selectedVariant, setSelectedVariant] = useState<Variante | null>(null)
   const [currentImageUrl, setCurrentImageUrl] = useState<string | undefined>(undefined)
-  const [isFavorite, setIsFavorite] = useState(false)
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -142,16 +144,22 @@ export default function ProductDetailPage({ producto }: Props) {
       }
     }
   }, [producto])
+  const { favProducts } = useSelector((state: RootState) => state.user)
+
+  const dispatch = useDispatch()
+  const isFavorite = some(favProducts, (productId) => productId === producto.id)
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setIsFavorite(!isFavorite)
+    e.preventDefault()
+    e.stopPropagation()
+    dispatch(toggleFavProduct({ id: producto.id }))
   }
 
   if (!producto) {
     return (
-      <div className="min-h-screen bg-white book-pattern flex items-center justify-center">
+      <div className="min-h-screen  book-pattern flex items-center justify-center">
         <div className="text-center fade-in">
           <BookOpen className="w-16 h-16 mx-auto mb-6 text-primary" />
           <h1 className="text-3xl  font-bold mb-4">Libro no encontrado</h1>
@@ -176,7 +184,7 @@ export default function ProductDetailPage({ producto }: Props) {
     producto.categorias?.length > 0 ? producto.categorias[0]?.categoria?.nombre || "Libros" : "Libros"
 
   return (
-    <div className="min-h-screen pt-20 bg-white book-pattern">
+    <div className="min-h-screen pt-20  book-pattern">
       <div className="relative z-20">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center space-x-3 text-sm bg-white/50 backdrop-blur-sm rounded-full px-6 py-3 border border-gray-200/50 w-fit">
@@ -196,7 +204,7 @@ export default function ProductDetailPage({ producto }: Props) {
           <div className="grid lg:grid-cols-2 gap-16">
             <div className="space-y-6 fade-in">
               <div className="relative group">
-                <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-white shadow-2xl book-card-hover border border-gray-100">
+                <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden bg-white shadow-2xl book-card-hover border border-gray-100">
                   <Image
                     src={currentImageUrl || "/placeholder.svg?height=600&width=480&query=elegant book cover"}
                     alt={selectedVariant?.titulo || producto.titulo}
@@ -217,11 +225,10 @@ export default function ProductDetailPage({ producto }: Props) {
                     <button
                       key={imagen.id}
                       onClick={() => setCurrentImageUrl(imagen.url)}
-                      className={`relative w-20 h-24 rounded-xl overflow-hidden border-2 transition-all book-card-hover ${
-                        currentImageUrl === imagen.url
-                          ? "border-primary shadow-lg"
-                          : "border-gray-200 hover:border-primary/50"
-                      }`}
+                      className={`relative w-20 h-24 rounded-xl overflow-hidden border-2 transition-all book-card-hover ${currentImageUrl === imagen.url
+                        ? "border-primary shadow-lg"
+                        : "border-gray-200 hover:border-primary/50"
+                        }`}
                     >
                       <Image
                         src={imagen.url || "/placeholder.svg?height=96&width=80&query=book thumbnail"}
@@ -237,7 +244,7 @@ export default function ProductDetailPage({ producto }: Props) {
 
             <div className="space-y-8 fade-in">
               <div className="space-y-4">
-                <h1 className="text-4xl lg:text-5xl  font-bold text-gray-900 leading-tight">
+                <h1 className="text-2xl lg:text-5xl  font-bold text-gray-900 leading-tight">
                   {producto.titulo}
                 </h1>
                 {producto.subtitulo && (
@@ -258,7 +265,7 @@ export default function ProductDetailPage({ producto }: Props) {
               <div className="bg-gradient-to-r from-primary/5 to-primary/5 rounded-2xl p-6 border border-primary/10">
                 {displayPrice !== null ? (
                   <div className="flex items-baseline gap-4">
-                    <span className="text-4xl font-bold text-primary">BOB {displayPrice}</span>
+                    <span className="text-2xl font-bold text-primary">BOB {displayPrice}</span>
                     <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
                       {!selectedVariant?.valores.length ? "Precio base" : "Variante seleccionada"}
                     </span>
@@ -292,7 +299,7 @@ export default function ProductDetailPage({ producto }: Props) {
 
               <div className="space-y-4">
                 <div className="flex gap-4">
-                  <Button asChild size="lg" className="flex-1 h-14 text-lg bg-primary hover:bg-primary/90 shadow-lg">
+                  <Button asChild size="lg" className="flex-1  bg-primary hover:bg-primary/90 shadow-lg">
                     <Link
                       href={`https://wa.me/59169848691?text=${encodeURIComponent(
                         `Hola, estoy interesado en el libro "${producto.titulo}". ¿Podría brindarme más información?`,
@@ -308,11 +315,10 @@ export default function ProductDetailPage({ producto }: Props) {
                     variant="outline"
                     size="lg"
                     onClick={handleToggleFavorite}
-                    className={`h-14 px-6 border-2 transition-all ${
-                      isFavorite
-                        ? "bg-red-50 border-red-300 text-red-600 hover:bg-red-100"
-                        : "hover:border-primary hover:text-primary"
-                    }`}
+                    className={` border-2 transition-all ${isFavorite
+                      ? "bg-red-50 border-red-300 text-red-600 hover:bg-red-100"
+                      : "hover:border-primary hover:text-primary"
+                      }`}
                   >
                     <Heart className={`w-5 h-5 ${isFavorite ? "fill-current" : ""}`} />
                   </Button>
@@ -320,7 +326,7 @@ export default function ProductDetailPage({ producto }: Props) {
                     variant="outline"
                     onClick={handleShare}
                     size="lg"
-                    className="h-14 px-6 border-2 hover:border-primary hover:text-primary bg-transparent"
+                    className=" border-2 hover:border-primary hover:text-primary bg-transparent"
                   >
                     <Share2 className="w-5 h-5" />
                   </Button>
@@ -339,15 +345,19 @@ export default function ProductDetailPage({ producto }: Props) {
                   <div className="w-12 h-12 mx-auto mb-3 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200 transition-colors">
                     <Truck className="w-6 h-6 text-green-600" />
                   </div>
-                  <p className="text-sm font-medium text-gray-900">Envío</p>
-                  <p className="text-xs text-gray-500">Gratis</p>
+                  <p className="text-sm font-medium text-gray-900">Entrega personal</p>
+                  <p className="text-xs text-gray-500">
+                    Entrega asegurada
+                  </p>
                 </div>
                 <div className="text-center group">
                   <div className="w-12 h-12 mx-auto mb-3 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors">
                     <Award className="w-6 h-6 text-amber-600" />
                   </div>
-                  <p className="text-sm font-medium text-gray-900">Calidad</p>
-                  <p className="text-xs text-gray-500">Verificada</p>
+                  <p className="text-sm font-medium text-gray-900">Libros</p>
+                  <p className="text-xs text-gray-500">
+                    Auténticos
+                  </p>
                 </div>
               </div>
             </div>
@@ -355,64 +365,64 @@ export default function ProductDetailPage({ producto }: Props) {
 
           {((producto.descripcion && producto.descripcion.trim()) ||
             (producto.caracteristicas && producto.caracteristicas.length > 0)) && (
-            <div className="mt-20 fade-in">
-              <Tabs defaultValue="descripcion" className="w-full max-w-4xl mx-auto">
-                <TabsList className="grid w-full grid-cols-2 bg-gray-100/50 backdrop-blur-sm h-12">
+              <div className="mt-20 fade-in">
+                <Tabs defaultValue="descripcion" className="w-full max-w-4xl mx-auto">
+                  <TabsList className="grid w-full grid-cols-2 bg-gray-100/50 backdrop-blur-sm h-12">
+                    {producto.descripcion && producto.descripcion.trim() && (
+                      <TabsTrigger
+                        value="descripcion"
+                        className="font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                      >
+                        Descripción Completa
+                      </TabsTrigger>
+                    )}
+                    {producto.caracteristicas && producto.caracteristicas.length > 0 && (
+                      <TabsTrigger
+                        value="especificaciones"
+                      >
+                        Especificaciones
+                      </TabsTrigger>
+                    )}
+                  </TabsList>
+
                   {producto.descripcion && producto.descripcion.trim() && (
-                    <TabsTrigger
-                      value="descripcion"
-                      className="font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                    >
-                      Descripción Completa
-                    </TabsTrigger>
+                    <TabsContent value="descripcion" className="mt-8">
+                      <Card className="bg-white/50 backdrop-blur-sm border-gray-200/50 shadow-lg">
+                        <CardContent className="p-8">
+                          <div className="prose prose-slate max-w-none">
+                            <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
+                              {producto.descripcion}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
                   )}
+
                   {producto.caracteristicas && producto.caracteristicas.length > 0 && (
-                    <TabsTrigger
-                      value="especificaciones"
-                    >
-                      Especificaciones
-                    </TabsTrigger>
+                    <TabsContent value="especificaciones" className="mt-8">
+                      <Card className="bg-white/50 backdrop-blur-sm border-gray-200/50 shadow-lg">
+                        <CardContent className="p-8">
+                          <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
+                            {producto.caracteristicas
+                              .filter((car) => car.nombre && car.nombre.trim() && car.valor && car.valor.trim())
+                              .map((caracteristica) => (
+                                <div
+                                  key={caracteristica.id}
+                                  className="flex justify-between items-center py-4 border-b border-gray-200/30 last:border-b-0"
+                                >
+                                  <span className="font-medium text-gray-900">{caracteristica.nombre}:</span>
+                                  <span className="text-gray-600 font-medium">{caracteristica.valor}</span>
+                                </div>
+                              ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
                   )}
-                </TabsList>
-
-                {producto.descripcion && producto.descripcion.trim() && (
-                  <TabsContent value="descripcion" className="mt-8">
-                    <Card className="bg-white/50 backdrop-blur-sm border-gray-200/50 shadow-lg">
-                      <CardContent className="p-8">
-                        <div className="prose prose-slate max-w-none">
-                          <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
-                            {producto.descripcion}
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-                )}
-
-                {producto.caracteristicas && producto.caracteristicas.length > 0 && (
-                  <TabsContent value="especificaciones" className="mt-8">
-                    <Card className="bg-white/50 backdrop-blur-sm border-gray-200/50 shadow-lg">
-                      <CardContent className="p-8">
-                        <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
-                          {producto.caracteristicas
-                            .filter((car) => car.nombre && car.nombre.trim() && car.valor && car.valor.trim())
-                            .map((caracteristica) => (
-                              <div
-                                key={caracteristica.id}
-                                className="flex justify-between items-center py-4 border-b border-gray-200/30 last:border-b-0"
-                              >
-                                <span className="font-medium text-gray-900">{caracteristica.nombre}:</span>
-                                <span className="text-gray-600 font-medium">{caracteristica.valor}</span>
-                              </div>
-                            ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-                )}
-              </Tabs>
-            </div>
-          )}
+                </Tabs>
+              </div>
+            )}
 
           <div className="mt-16 fade-in">
             <div className="max-w-4xl mx-auto">

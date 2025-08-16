@@ -18,6 +18,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { Categoria } from "@/types/main"
+import Image from "next/image"
 
 export function Navbar() {
   const navVariants: Variants = {
@@ -58,8 +59,8 @@ export function Navbar() {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 flex items-center p-4 justify-between text-white w-screen  z-50 px-8 transition-all duration-300 ${isScrolled || !isHomePage
-        ? "bg-primary/90 backdrop-blur-md shadow"
+      className={`fixed top-0 left-0 flex items-center  justify-between text-white w-screen p-4 px-8  z-50  transition-none duration-300 ${isScrolled || !isHomePage
+        ? "bg-background backdrop-blur-md shadow"
         : "bg-transparent"
         }`}
     >
@@ -81,8 +82,7 @@ export function Navbar() {
             {" "}
             {/* Header del Sheet */}
             <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <Mountain className="h-6 w-6 text-white" />
-              <span>BookStore</span>
+              <Image alt="logo" src="/logo.png" />
             </Link>
           </div>
           <div className="grid gap-1 py-4 px-4">
@@ -90,7 +90,9 @@ export function Navbar() {
             {/* Ajuste de espaciado general del menú */}
             <Link
               href="/catalogo"
-              className="flex w-full items-center py-2 px-2 rounded-md hover:bg-muted text-lg font-semibold"
+              className={
+                `flex w-full items-center py-2 px-2 rounded-md hover:bg-muted text-lg font-semibold ${isScrolled && ('text-primary')}`
+              }
             >
               Catálogo
             </Link>
@@ -139,9 +141,13 @@ export function Navbar() {
           </div>
         </SheetContent>
       </Sheet>
-      <Link href="/" className=" hidden sm:flex text-primary-foreground">
-        <Mountain className="h-6 w-6" />
-        <span className="sr-only">BookStore</span>
+      <Link href="/" className=" h-full hidden sm:flex ">
+        {
+          (isScrolled || !isHomePage) ?
+            <Image alt={`LOGO`} className="h-10" src={"/logo.png"} width={50} height={70} /> :
+            <Image alt={`/logo.png`} className="h-9.5" src={`/logo2.png`} width={50} height={70} />
+        }
+
       </Link>
       {/* Centered Navigation Menu for Desktop */}
       <div className="flex-grow hidden sm:flex justify-center">
@@ -150,13 +156,19 @@ export function Navbar() {
             <NavigationMenuLink asChild>
               <Link
                 href="/catalogo"
-
+                className={
+                  ` ${(isScrolled || !isHomePage) && ('text-primary')}
+                  `
+                }
               >
                 Catálogo
               </Link>
             </NavigationMenuLink>
             <NavigationMenuItem>
-              <NavigationMenuTrigger >
+              <NavigationMenuTrigger className={
+                ` ${(isScrolled || !isHomePage) && ('text-primary')}
+                  `
+              } >
                 Categorías
               </NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -170,12 +182,12 @@ export function Navbar() {
                           <div className="text-sm font-medium leading-none group-hover:underline">
                             {categoria.nombre.charAt(0).toUpperCase() + categoria.nombre.slice(1)}
                           </div>
-                          
+
                         </Link>
                       </NavigationMenuLink>
                     ))
                   }
-                  
+
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
@@ -183,7 +195,10 @@ export function Navbar() {
             <NavigationMenuLink asChild>
               <Link
                 href="/#contacto"
-
+                className={
+                  ` ${(isScrolled || !isHomePage) && ('text-primary')}
+                  `
+                }
               >
                 Contacto
               </Link>
@@ -197,6 +212,10 @@ export function Navbar() {
           size="icon"
           asChild
           aria-label="Favoritos"
+          className={
+            ` ${(isScrolled || !isHomePage) && ('text-primary')}
+                  `
+          }
         >
           <Link href="/favoritos">
             <Heart className="size-4" /></Link>

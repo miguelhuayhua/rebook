@@ -196,7 +196,7 @@ const FavoritosPage = () => {
               )}
             </div>
             <p className="text-gray-400 text-sm">
-              {isLoading ? "Cargando..." : `${filteredProductos.length} de ${favProducts.length} productos`}
+              {isLoading ? "Cargando..." : `${filteredProductos.length} de ${favProducts.length - 1} libros`}
             </p>
           </motion.div>
 
@@ -217,7 +217,7 @@ const FavoritosPage = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" : "grid-cols-1"}`}
+                className={`grid grid-cols-2 md:grid-cols-3 gap-8 lg:grid-cols-4 xl:grid-cols-5" : "grid-cols-1"}`}
               >
                 {filteredProductos.map((producto, index) => (
                   <motion.div

@@ -30,16 +30,8 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-6">
           <div className="animate-fade-in-up">
             <div className="flex items-center space-x-2 mb-3">
-              <div className="w-8 h-8 rounded-full overflow-hidden">
-                <Image
-                  src="/logo.png"
-                  alt="AVM Logo"
-                  width={32}
-                  height={32}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <span className="text-lg font-bold">Rebook</span>
+
+              <span className="text-lg font-bold">Casa de libros</span>
             </div>
             <p className=" mb-3 text-sm font-medium leading-relaxed">
               Tu destino para descubrir y disfrutar de los mejores libros. Explora, aprende y comparte tu pasión por la lectura con nosotros.
@@ -90,17 +82,17 @@ export default function Footer() {
         </div>
         <Separator className="my-6" />
         <div className="text-center text-gray-400 animate-fade-in-up animation-delay-800 flex justify-center gap-1">
-          <div className="flex items-center gap-2 font-bold text-sm ">
+          <div className="flex items-center font-bold text-sm ">
             Rebook
           </div>
-          <p className="text-sm font-medium">
+          <p className="text-xs font-medium">
             &copy; {new Date().getFullYear()}  Todos los derechos reservados.
           </p>
         </div>
 
-        <small className="flex gap-1 text-gray-500 justify-center mt-8 items-center ">
+        <small className="flex gap-1 text-gray-500 justify-center  items-center ">
           <span>Powered by </span> <Image alt="logo"
-            width={50} height={20} src='/dark.png' className="mt-1" />
+            width={50} height={20} src='/light.png' className="mt-1" />
         </small>
       </div>
     </footer >
