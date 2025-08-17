@@ -31,7 +31,7 @@ export function Producto({ publicacion }: ProductoProps) {
   const genre = publicacion.caracteristicas.find((char) => char.nombre === "Género")?.valor
   const categorias = publicacion.categorias; // Obtener el nombre de la primera categoría
   return (
-    <Card className="w-full max-w-xs mx-auto overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className="w-full relative max-w-xs mx-auto overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
       <Link href={`/catalogo/${publicacion.id}`} className="block">
         <div className="relative w-full aspect-[3/4] overflow-hidden">
           <Image
@@ -43,7 +43,7 @@ export function Producto({ publicacion }: ProductoProps) {
           />
         </div>
       </Link>
-      <CardHeader >
+      <CardHeader className="px-3" >
         {categorias.length > 0 && (
           <div className="text-sm flex items-center  font-bold text-primary gap-2 mb-2">
             {
@@ -67,16 +67,16 @@ export function Producto({ publicacion }: ProductoProps) {
         )}
 
       </CardHeader>
-      <CardContent >
+      <CardContent className="px-3">
         <div className="text-xl font-bold text-primary">{defaultPrice}</div>
       </CardContent>
-      <CardFooter className="p-4 pt-0 flex gap-2">
+      <CardFooter className="py-4 px-3 pt-0 flex gap-2">
         <Button className="flex-1" asChild>
           <Link href={`/catalogo/${publicacion.id}`}>Ver Detalles</Link>
         </Button>
         <Button onClick={handleToggleFavorite}
           size="icon"
-          className={` z-10  duration-300 p-1 ${isFavorite && ('text-secondary ')}`} variant="outline" >
+          className={`absolute top-2 right-2 z-10 ${isFavorite && ('text-secondary ')}`} variant="outline" >
           <Heart className={`${isFavorite && ('fill-secondary')}`} />
           <span className="sr-only">Añadir a la lista de deseos</span>
         </Button>

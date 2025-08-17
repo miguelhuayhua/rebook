@@ -105,10 +105,6 @@ const FavoritosPage = () => {
     setFilteredProductos(filtered)
   }, [productos, searchQuery, sortBy, selectedCategory])
 
-  const handleRemoveFromFavorites = (productId: string) => {
-    dispatch(toggleFavProduct({ id: productId }))
-  }
-
   const handleClearAllFavorites = () => {
     favProducts.forEach((id) => {
       dispatch(toggleFavProduct({ id }))
@@ -196,7 +192,7 @@ const FavoritosPage = () => {
               )}
             </div>
             <p className="text-gray-400 text-sm">
-              {isLoading ? "Cargando..." : `${filteredProductos.length} de ${favProducts.length - 1} libros`}
+              {isLoading ? "Cargando..." : ` ${favProducts.length} libros que te gustaron`}
             </p>
           </motion.div>
 

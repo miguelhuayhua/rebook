@@ -25,7 +25,7 @@ export default function ProductListSection() {
     }, [])
     return (
         <section id="productos" className="py-16  backdrop-blur-sm">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto px-3">
                 <div className="text-center mb-12">
                     <h2 className="text-2xl md:text-3xl font-bold mb-3 animate-fade-in-up text-primary">Nuestros Libros</h2>
                     <p className="text-base animate-fade-in-up animation-delay-200 font-medium">
