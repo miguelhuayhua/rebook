@@ -15,7 +15,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: "Casa de Libros",
+  title: {
+    default: "Casa de Libros",
+    template: "%s | Casa de Libros",
+  },
+  icons: {
+    icon: "/og-square.png"
+  },
   description: "Un lugar para encontrar libros de todo tipo.",
   openGraph: {
     title: "Casa de Libros",
@@ -24,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "casa-libros",
     images: [
       {
-        url: "https://casa-libros.vercel.app/og-normal.png",
+        url: "https://casa-libros.vercel.app/og-square.png",
         width: 1200,
         height: 630,
         alt: "casa-libros",
