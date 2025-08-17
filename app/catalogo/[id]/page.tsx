@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     const imagenPrincipal = producto.imagenes.length > 0 ? producto.imagenes?.[0].url : '/placeholder.svg'
     const precio = producto.variantes?.[0]?.precio || null
     return {
-      title: `${titulo} | REBOOK`,
+      title: `${titulo}`,
       description: descripcion,
       keywords: [
         titulo,
