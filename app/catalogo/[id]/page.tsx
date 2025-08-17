@@ -6,7 +6,7 @@ const getProducto = async (id: string) => {
   return await fetch(`https://uayua.com/uayua/api/publicaciones/get?url=${id}&fields=id,titulo,imagenes,subtitulo,coleccion,caracteristicas,estado,variantes:valores,opciones:valores,opciones:id,opciones:nombre,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion,variantes:imagen,categorias:categoria`, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUATOKEN}`,
-      'Origin': 'https://rebook-bo.vercel.app'
+      'Origin': 'https://casa-libros.vercel.app'
     }
   }).then(res => res.json())
 }
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         title: titulo,
         description: descripcion,
         type: 'article',
-        url: `https://REBOOK-bo.vercel.app/catalogo/${id}`,
+        url: `https://casa-libros.vercel.app/catalogo/${id}`,
         images:
         {
           url: imagenPrincipal,
@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
       // Canonical URL
       alternates: {
-        canonical: `https://REBOOK-bo.vercel.app/producto/${id}`,
+        canonical: `https://casa-libros.vercel.app/producto/${id}`,
       },
 
       // Robots
@@ -101,7 +101,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { id } = await params
 
   const producto = await getProducto(id);
-  console.log(producto)
   if (producto)
     return <Client producto={producto as any} />
   else return notFound();

@@ -14,12 +14,32 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 export const metadata: Metadata = {
-  title: "Vidriería REBOOK",
-  description: "Especialistas en vidriería y carpintería de aluminio. Fabricamos e instalamos ventanas, puertas, canceles y soluciones a medida en vidrio y aluminio para hogares y negocios.",
-};
+  title: "Casa de Libros",
+  description: "Un lugar para encontrar libros de todo tipo.",
+  openGraph: {
+    title: "Casa de Libros",
+    description: "Un lugar para encontrar libros de todo tipo.",
+    url: "https://casa-libros.vercel.app",
+    siteName: "casa-libros",
+    images: [
+      {
+        url: "https://casa-libros.vercel.app/og-normal.png",
+        width: 1200,
+        height: 630,
+        alt: "casa-libros",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Casa de Libros",
+    description: "Un lugar para encontrar libros de todo tipo.",
+    images: ["https://casa-libros.vercel.app/og-image.png"],
+  },
 
+};
 export default function RootLayout({
   children,
 }: Readonly<{
