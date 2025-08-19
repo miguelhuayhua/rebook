@@ -366,8 +366,8 @@ export default function ProductDetailPage({ producto }: Props) {
           {((producto.descripcion && producto.descripcion.trim()) ||
             (producto.caracteristicas && producto.caracteristicas.length > 0)) && (
               <div className="mt-20 fade-in">
-                <Tabs defaultValue="descripcion" className="w-full max-w-4xl mx-auto">
-                  <TabsList className="grid w-full grid-cols-2 bg-gray-100/50 backdrop-blur-sm h-12">
+                <Tabs defaultValue="especificaciones" className="w-full max-w-4xl mx-auto">
+                  <TabsList  className="grid w-full grid-cols-2 bg-gray-100/50 backdrop-blur-sm h-12">
                     {producto.descripcion && producto.descripcion.trim() && (
                       <TabsTrigger
                         value="descripcion"

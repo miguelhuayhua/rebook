@@ -14,7 +14,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { Categoria } from "@/types/main"
@@ -69,22 +69,22 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="sm:hidden bg-transparent"
+            className={
+              ` ${(isScrolled || !isHomePage) && ('text-primary')}
+                  `
+            }
           >
             <Menu className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="p-0">
+        <SheetContent side="left" className="pt-6">
+          <SheetTitle className="sr-only">
+            Sheet
+          </SheetTitle>
           {" "}
           {/* Eliminar padding por defecto del SheetContent */}
-          <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
-            {" "}
-            {/* Header del Sheet */}
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <Image alt="logo" src="/logo.png" />
-            </Link>
-          </div>
+
           <div className="grid gap-1 py-4 px-4">
             {" "}
             {/* Ajuste de espaciado general del menú */}
@@ -127,13 +127,13 @@ export function Navbar() {
               </CollapsibleContent>
             </Collapsible>
             <Link
-              href="/about"
+              href="/#nosotros"
               className="flex w-full items-center py-2 px-2 rounded-md hover:bg-muted text-lg font-semibold"
             >
               Sobre Nosotros
             </Link>
             <Link
-              href="/contact"
+              href="/#contacto"
               className="flex w-full items-center py-2 px-2 rounded-md hover:bg-muted text-lg font-semibold"
             >
               Contacto
@@ -141,10 +141,10 @@ export function Navbar() {
           </div>
         </SheetContent>
       </Sheet>
-      <Link href="/" className=" h-full hidden sm:flex ">
+      <Link href="/" className=" h-full  ">
         {
           (isScrolled || !isHomePage) ?
-            <Image alt={`LOGO`} className="h-10" src={"/logo.png"} width={50} height={70} /> :
+            <Image alt={`LOGO`} className="h-8.5" src={"/logo.png"} width={50} height={70} /> :
             <Image alt={`/logo.png`} className="h-9.5" src={`/logo2.png`} width={50} height={70} />
         }
 
